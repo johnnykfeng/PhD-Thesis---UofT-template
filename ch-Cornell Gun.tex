@@ -1,0 +1,104 @@
+\chapter{High Coherence Semiconductor Ultrafast Electron Diffractometer}
+
+\section{Motivation}
+
+\subsection{Spicer's 3 step model}
+
+A major feature of this particular electron diffractometer project is it's implementation of semiconductor photocathode. Such cathodes offers a lot of advantages vs conventional metal cathodes, but it also adds complexity in the design and implementation. I will first discuss the theory behind photo-cathodes as an electron source to justify the use of semiconductors. 
+
+The first theory of photoemission is the well-known Nobel prize winning work of Albert Einstein on what is called "Photoelectric effect" published in 1903 [ ]. There he describes how photoelectrons emitted from metals caused by the excitation of electrons from incident electromagnetic radiation. His theory shows that the maximum kinetic energy of photoelectrons solely depend on the frequency (i.e. photon energy) of the incident light rather than light intensity, and electrons are only emitted when the frequency of light passed a certain energy threshold, called the work function. This simple model was a start of ...
+however it is not a complete picture of the photoemission process. The theory of photoelectric effect treats the photoemission process as a surface effect on the metal, rather a bulk effect. For the application of photocathodes as high brightness ultrafast electron sources, other important parameters are considered such as quantum efficiency (QE), transverse momentum distribution, and emission response time. The rest of this section will present the modern theory of photoemission.
+
+In the field of photocathode science, Spicer's 3-step model [ ] is a well accepted framework for explaining the photoemission dynamics.  The entire process is compartmentalized into 3 steps 1. Photoexcitation of electrons 2. Transport of electrons to surface 3. Escape of electrons to vacuum. 
+
+Let's start by defining a model for the absorbed light incident on a slab of photocathode material.
+
+
+%\begin{enumerate}
+
+
+\begin{equation}\label{3.1}
+    I(x, h\nu) = I_0(h\nu)[1-R]e^{-\alpha(h\nu)x} 
+\end{equation}
+
+
+Where $I_0 (h\nu)$
+is the intensity of the incident light, $R$ is the reflectivity of the material, $\alpha$ is the absorption coefficient of the material, and $x$ is the depth from the surface where the light hits. Then the incremental change in absorbed light can be defined as
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\linewidth]{img-Band energy of photocathode-01.png}
+  \caption{Illustration of Spicer 3-step model}
+\end{figure}
+
+$$dI(x) = I_0[1-R]\alpha e^{-\alpha x}dx.$$
+
+For the photoelectron current $i(h\nu)$, consider the incremental contribution $di(x, h\nu)$ to the photoelectron yield from excitation at depth $x$ and incremental thickness $dx$
+
+$$di(x, dx, h\nu) = P_{VL}(h\nu,x,dx)P_{T}(h\nu,x)P_E(h\nu)$$
+
+Where $P_{VL}$ is the probability of exciting electrons in the slab between $x$ and $x + dx$, $P_T$ is the probability that electrons at $x$ distance from cathode surface, excited with photon energy $h\nu$, reaches the surface with sufficient escape energy. $P_E$ is the probability that the electron escapes once it reaches the surface with sufficient energy.             
+Let's first define $P_{VL}$ as the product of the light absorbed by the slab of thickness $dx$ and $\alpha_{PE}$ the probability or rate of the of which electrons are excited above the vacuum level, 
+$$ P_{VL}(h\nu, x, dx) = \alpha_{PE}(h\nu) I(x) dx =I_0(h\nu)[1-R] \alpha_{PE}(h\nu) dx $$	
+The $P_T$ is essentially the probability of scattering another electron in the medium, so it is represented by [ ]
+
+$$P_T = \exp{ \left\{ -\frac{x}{L(h\nu)} \right\} }$$
+$L(h\nu)$ is the mean free path of scattering of an electron excited by photon $h\nu$
+
+
+
+
+Substituting for $P_T$ and $P_{VL}$ into equation ( ) and integrating over the semi-infinite slab as such $\int_{0}^\infty di(x) dx$
+
+$$I(h\nu) = I_0(h\nu)[1-R] \frac{\alpha_{PE}}{\alpha + 1/L(h\nu)} P_E(h\nu)$$
+
+Finally, we define quantum efficiency (QE) as the number of electrons emitted per absorbed photon
+$$QE(h\nu) = \frac{I(h\nu)}{I_0 [1-R]} = \frac{\alpha_{PE}}{\alpha + \frac{1}{L}} P_E = \frac{\alpha_{PE}/\alpha}{1 + \frac{l_a}{L}} P_E$$
+where $l_a = 1/\alpha$ is the absorption length. Keep in mind that $P_E, \alpha, \alpha_{PE}, L$ are all a function of $h\nu$. 
+
+
+The other important parameter for assessing the performance of photocathodes is its response time, typically defined as the spread in the delay time between photoexcitation and emission of electron. We can approximate the response time be integrating over the electron path length before escaping: $$ \tau = \int_{0}^{L_T} \frac{dl}{v(l)}  = \frac{\int_{0}^{L_T} dl}{v_a} =\frac{L_T}{v_a}$$
+where $\tau$  is the response time, $dl$ is the length interval over $L_T$ the electron path length, $v(l)$ is the electron speed at position $l$ and $v(a)$ is the average speed of the electron during it's entire trajectory.  
+
+%\end{enumerate}
+
+%\linebreak
+ 
+\subsection{Metal vs Semiconductors}
+
+There are a variety of viable photocathode materials for high energy electron beam generation and for various applications. Most of them can be divided into 2 broad categories: metals and semiconductors. Each have very distinct characteristics in their electron emissions due to the differences in the underlying physics process of photoemission. 
+
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.7\linewidth]{img-Magic Window.png}
+      \caption{Cartoon illustration of the photoemission process of a) metal and b) semiconductor. }
+    \end{figure}
+
+Metals have a simpler energetic band structure, where electrons from the valence band are photoexcited to the conduction band. Only electrons above the vacuum level energy barrier and that are near the surface have a chance of escaping to vacuum. Electrons deeper in the bulk most will likely scatter with another electron, causing loss of energy and preventing from escape. For this reason, metals typically have a very short scattering length and low quantum efficiency. 
+
+Semiconductors band structure differ from metals, such that the valence band and conduction band are separated by an energy band gap. Electrons must energetically over come the band gap in addition to the electron affinity (Ea) to escape the to vacuum. The region above the electron affinity (labeled magic window) is where the electron-electron scattering is minimal, greatly increasing the scattering length L. This mechanism allows semiconductors cathodes to have far greater QE than metals cathodes. 
+
+Among semiconductors, there are different types that lend itself to various different photoemission characteristics. Some semiconductors exhibit lower or higher electron affinity by band bending [ ], this allows for close engineering of these desired properties by precise doping of the semiconductors. Two main subclasses of semiconductors photocathodes arise from this research, negative electron affinity (NEA) cathodes positive electron affinity (PEA) cathodes. Typically NEA cathodes fabricated by p-type doping of gallium based semiconductors (e.g. GaAs, GaN, InGaAsP), and PEA cathodes are alkali based materials [ ]. 
+
+Both NEA and PEA cathodes have their own unique advantages and disadvantages, and both classes of cathodes have been well-studied and tested in the field of photocathode science. NEA cathodes have electron affinities below
+
+
+
+%\linebreak
+\section{Design}
+The implementation of semiconductor photocathodes presented unique challenges compared to typical UED systems. The first is that it must be maintained in ultra high vacuum at all times. Semiconductor cathodes are grown in UHV via molecular beam epitaxy, then transported to it's destination accelerator via vacuum suitcase, which is a smaller transportable vacuum chamber. The 
+
+
+\subsection{Anode-Cathode Assembly}
+\subsection{Ultra high vacuum}
+\subsection{Sample Chamber}
+
+
+
+\section{Assembly}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\linewidth]{example-image-a}
+  \caption{Jumping over the lazy dog}
+\end{figure}
